@@ -8,16 +8,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by anweshmishra on 22/06/15.
  */
 public class RequestUtil {
-    public static StringRequest makeRequest(final Context context,final HashMap<String,String> params) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.PROD_URL, new Response.Listener<String>() {
+    public static StringRequest makeRequest(final Context context,final HashMap<String,String> params,final String service) {
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.PROD_URL+service, new Response.Listener<String>() {
             public void onResponse(String response) {
-                Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
+                Random random = new Random();
+                Toast.makeText(context, response+(random.nextInt(100)+30), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -31,5 +35,17 @@ public class RequestUtil {
             }
         };
         return stringRequest;
+    }
+    public static boolean isServerDown(URL url) {
+        boolean serverDown = true;
+        try {
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.connect();
+            serverDown = false;
+        }
+        catch(Exception exception) {
+
+        }
+        return serverDown;
     }
 }

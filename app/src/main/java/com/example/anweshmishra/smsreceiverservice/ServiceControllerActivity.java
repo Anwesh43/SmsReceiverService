@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import com.android.volley.*;
 
@@ -22,6 +23,7 @@ public class ServiceControllerActivity extends Activity implements Button.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_controller);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         serviceIntent = new Intent(this,ReceiverService.class);
         smsIntentFilter = new IntentFilter();
         smsIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
